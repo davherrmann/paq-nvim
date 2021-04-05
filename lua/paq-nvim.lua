@@ -120,7 +120,8 @@ end
 
 local function install_done()
     for name, pkg in pairs(packages) do
-        if not pkg.exists then return false end
+        local exists = (vfn('isdirectory', {dir}) ~= 0)
+        if not exists then return false end
     end
     return true
 end
