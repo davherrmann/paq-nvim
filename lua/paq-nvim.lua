@@ -125,7 +125,7 @@ local function install_done()
     return true
 end
 
-local function packages()
+local function list_pkgs()
     return packages
 end
 
@@ -208,7 +208,7 @@ end
 return {
     install      = function() _nvim.tbl_map(install, packages) end,
     install_done = install_done,
-    packages     = packages,
+    packages     = list_pkgs,
     update       = function() _nvim.tbl_map(update, packages) end,
     clean        = clean_pkgs,
     setup        = setup,
