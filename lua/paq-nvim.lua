@@ -82,6 +82,7 @@ local function call_proc(process, pkg, args, cwd, ishook)
             stderr:close()
             handle:close()
             output_result(args[1] or process, pkg.name, code == 0, ishook)
+            if code == 0 then pkg.exists = true end
             if not ishook then run_hook(pkg) end
         end)
     )
@@ -120,14 +121,9 @@ end
 
 local function install_done()
     for name, pkg in pairs(packages) do
-        local exists = (vfn('isdirectory', {pkg.dir}) ~= 0)
-        if not exists then return false end
+        if not pkg.exists then return false end
     end
     return true
-end
-
-local function list_pkgs()
-    return packages
 end
 
 local function update(pkg)
@@ -209,7 +205,6 @@ end
 return {
     install      = function() _nvim.tbl_map(install, packages) end,
     install_done = install_done,
-    packages     = list_pkgs,
     update       = function() _nvim.tbl_map(update, packages) end,
     clean        = clean_pkgs,
     setup        = setup,
