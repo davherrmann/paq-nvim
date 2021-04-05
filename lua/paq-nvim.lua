@@ -119,7 +119,7 @@ local function install(pkg)
 end
 
 local function install_done()
-    for name, pkg in packages do
+    for name, pkg in pairs(packages) do
         if not pkg.exists then return false end
     end
     return true
