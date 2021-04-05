@@ -125,6 +125,10 @@ local function install_done()
     return true
 end
 
+local function packages()
+    return packages
+end
+
 local function update(pkg)
     if pkg.exists then
         call_proc('git', pkg, {'pull'}, pkg.dir)
@@ -204,6 +208,7 @@ end
 return {
     install      = function() _nvim.tbl_map(install, packages) end,
     install_done = install_done,
+    packages     = packages,
     update       = function() _nvim.tbl_map(update, packages) end,
     clean        = clean_pkgs,
     setup        = setup,
