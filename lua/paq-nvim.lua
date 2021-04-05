@@ -118,6 +118,13 @@ local function install(pkg)
     call_proc('git', pkg, args)
 end
 
+local function install_done()
+    for name, pkg in packages do
+        if not pkg.exists then return false end
+    end
+    return true
+end
+
 local function update(pkg)
     if pkg.exists then
         call_proc('git', pkg, {'pull'}, pkg.dir)
@@ -195,11 +202,12 @@ local function setup(args)
 end
 
 return {
-    install   = function() _nvim.tbl_map(install, packages) end,
-    update    = function() _nvim.tbl_map(update, packages) end,
-    clean     = clean_pkgs,
-    setup     = setup,
-    paq       = paq,
-    log_open  = function() cmd('sp ' .. LOGFILE) end,
-    log_clean = function() uv.fs_unlink(LOGFILE); print('Paq log file deleted') end,
+    install      = function() _nvim.tbl_map(install, packages) end,
+    install_done = install_done,
+    update       = function() _nvim.tbl_map(update, packages) end,
+    clean        = clean_pkgs,
+    setup        = setup,
+    paq          = paq,
+    log_open     = function() cmd('sp ' .. LOGFILE) end,
+    log_clean    = function() uv.fs_unlink(LOGFILE); print('Paq log file deleted') end,
 }
