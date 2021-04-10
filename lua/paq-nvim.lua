@@ -108,7 +108,8 @@ function run_hook(pkg) --(already defined as local)
 end
 
 local function install(pkg)
-    local args = {'clone', pkg.url}
+    local reference = '~/.paq-cache/' .. pkg.name
+    local args = {'clone', pkg.url, '--reference', reference}
     if pkg.exists then
         ops['clone']['ok'] = ops['clone']['ok'] + 1
         return
