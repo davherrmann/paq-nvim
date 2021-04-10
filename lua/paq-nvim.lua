@@ -111,7 +111,7 @@ local function install(pkg)
     local reference = vim.env.HOME .. '/.paq-cache/' .. pkg.name
 		local referenceExists = (vfn('isdirectory', {reference}) ~= 0)
 		if not referenceExists then
-				vim.cmd 'silent exec "!git clone --mirror ' .. pkg.url .. ' ' .. reference .. '"'
+				vim.cmd('silent exec "!git clone --mirror ' .. pkg.url .. ' ' .. reference .. '"')
 		end
     local args = {'clone', pkg.url, '--reference', reference}
     if pkg.exists then
