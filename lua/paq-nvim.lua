@@ -109,6 +109,10 @@ end
 
 local function install(pkg)
     local reference = '~/.paq-cache/' .. pkg.name
+		local referenceExists = (vfn('isdirectory', {reference}) ~= 0)
+		if not referenceExists then
+				os.execute('git clone --mirror ' .. pkg.url .. ' ' .. reference))
+		end
     local args = {'clone', pkg.url, '--reference', reference}
     if pkg.exists then
         ops['clone']['ok'] = ops['clone']['ok'] + 1
