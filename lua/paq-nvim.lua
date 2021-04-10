@@ -108,7 +108,7 @@ function run_hook(pkg) --(already defined as local)
 end
 
 local function install(pkg)
-    local reference = '~/.paq-cache/' .. pkg.name
+    local reference = vim.env.HOME .. '/.paq-cache/' .. pkg.name
 		local referenceExists = (vfn('isdirectory', {reference}) ~= 0)
 		if not referenceExists then
 				os.execute('git clone --mirror ' .. pkg.url .. ' ' .. reference)
