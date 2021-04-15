@@ -108,16 +108,19 @@ function run_hook(pkg) --(already defined as local)
 end
 
 local function install(pkg)
+    if pkg.exists then
+        ops['clone']['ok'] = ops['clone']['ok'] + 1
+        return
+		end
+
     local reference = vim.env.HOME .. '/.paq-cache/' .. pkg.name
 		local referenceExists = (vfn('isdirectory', {reference}) ~= 0)
 		if not referenceExists then
 				vim.cmd('silent exec "!git clone --mirror ' .. pkg.url .. ' ' .. reference .. '"')
 		end
+
     local args = {'clone', pkg.url, '--reference', reference}
-    if pkg.exists then
-        ops['clone']['ok'] = ops['clone']['ok'] + 1
-        return
-    elseif pkg.branch then
+    if pkg.branch then
         _nvim.list_extend(args, {'-b',  pkg.branch})
     end
     _nvim.list_extend(args, {pkg.dir})
